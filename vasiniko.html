@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vasinikò — Neapolitan Pizza London</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red:    #c8281e;
+      --dark:   #111;
+      --cream:  #f9f4ec;
+      --tan:    #e8dcc8;
+      --muted:  #6b6258;
+      --white:  #fff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 99;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 60px;
+      background: rgba(17,17,17,0.92);
+      backdrop-filter: blur(8px);
+    }
+    .logo {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.5rem;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .logo span { color: var(--red); }
+    nav ul { list-style: none; display: flex; gap: 32px; }
+    nav ul a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-family: 'Jost', sans-serif;
+      transition: color .2s;
+    }
+    nav ul a:hover { color: var(--white); }
+    .nav-book {
+      background: var(--red);
+      color: var(--white) !important;
+      padding: 9px 20px;
+      border-radius: 2px;
+    }
+    .nav-book:hover { background: #a81e15; }
+
+    /* ─── HERO ─── */
+    #hero {
+      height: 100vh;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.72) 100%),
+        url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1800&q=90') center/cover no-repeat;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 0 20px;
+    }
+    #hero .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #e8c98a;
+      margin-bottom: 18px;
+      font-weight: 500;
+      font-family: 'Jost', sans-serif;
+    }
+    #hero h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(3.4rem, 9vw, 7rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.0;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    #hero h1 em { color: var(--red); font-style: normal; }
+    #hero p {
+      color: rgba(255,255,255,0.82);
+      font-size: 1.05rem;
+      max-width: 480px;
+      line-height: 1.75;
+      margin-bottom: 40px;
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all .2s;
+    }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-red:hover { background: #a81e15; }
+    .btn-outline { border: 1.5px solid rgba(255,255,255,0.6); color: #fff; }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 36px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px; color: rgba(255,255,255,0.5);
+      font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .scroll-hint::after {
+      content: '';
+      width: 1px; height: 40px;
+      background: rgba(255,255,255,0.3);
+      animation: scrollLine 1.6s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%,100% { transform: scaleY(0); transform-origin: top; }
+      50%      { transform: scaleY(1); transform-origin: top; }
+    }
+
+    /* ─── SECTION SHARED ─── */
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--red);
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .about-img {
+      background: url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=900&q=80') center/cover no-repeat;
+      min-height: 560px;
+    }
+    .about-text {
+      background: var(--dark);
+      color: var(--white);
+      padding: 90px 70px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-text .section-title { color: var(--white); }
+    .about-text p {
+      color: rgba(255,255,255,0.65);
+      line-height: 1.85;
+      font-size: 0.97rem;
+      margin-bottom: 16px;
+    }
+    .about-text p strong { color: var(--red); font-weight: 400; }
+
+    /* ─── WHY ─── */
+    #why {
+      padding: 90px 60px;
+      background: var(--cream);
+      text-align: center;
+    }
+    #why .section-title { margin-bottom: 60px; }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .why-card {
+      background: var(--white);
+      padding: 40px 32px;
+      border-radius: 3px;
+      text-align: left;
+      border-top: 3px solid var(--red);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+      transition: transform .25s;
+    }
+    .why-card:hover { transform: translateY(-4px); }
+    .why-card .icon { font-size: 1.9rem; margin-bottom: 18px; }
+    .why-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+    .why-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* ─── LOCATIONS ─── */
+    #locations {
+      background: var(--dark);
+      color: var(--white);
+      padding: 90px 60px;
+      text-align: center;
+    }
+    #locations .section-label { color: var(--red); }
+    #locations .section-title { color: var(--white); margin-bottom: 60px; }
+    .loc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 880px;
+      margin: 0 auto 50px;
+    }
+    .loc-card {
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 44px 40px;
+      border-radius: 3px;
+      text-align: left;
+      transition: border-color .2s;
+    }
+    .loc-card:hover { border-color: var(--red); }
+    .loc-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+    }
+    .loc-card p {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .loc-card a.btn-red { display: inline-block; }
+
+    .tel-block {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+    }
+    .tel-block a {
+      color: var(--red);
+      text-decoration: none;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+    }
+
+    /* ─── BOOK FORM ─── */
+    #book {
+      background: var(--tan);
+      padding: 90px 60px;
+      text-align: center;
+    }
+    #book .section-title { margin-bottom: 10px; }
+    #book .sub {
+      color: var(--muted);
+      font-size: 0.93rem;
+      margin-bottom: 44px;
+      line-height: 1.6;
+      max-width: 500px;
+      margin-left: auto; margin-right: auto;
+    }
+    .book-form {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .book-form input, .book-form select {
+      flex: 1 1 180px;
+      padding: 14px 18px;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 2px;
+      background: var(--white);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      color: var(--dark);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .book-form input:focus, .book-form select:focus {
+      border-color: var(--red);
+    }
+    .book-form button {
+      padding: 14px 36px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 2px;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .book-form button:hover { background: #a81e15; }
+    .form-note {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      max-width: 500px;
+      margin-left: auto; margin-right: auto;
+      line-height: 1.6;
+    }
+    .success-msg {
+      display: none;
+      background: #2c6e2f;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      margin-top: 24px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #0a0a0a;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      padding: 36px 20px;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+    footer a { color: var(--red); text-decoration: none; }
+    footer .footer-logo {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 14px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 800px) {
+      nav { padding: 18px 24px; }
+      nav ul { display: none; }
+      #about { grid-template-columns: 1fr; }
+      .about-img { min-height: 300px; }
+      .about-text { padding: 60px 32px; }
+      .why-grid { grid-template-columns: 1fr; }
+      .loc-grid { grid-template-columns: 1fr; }
+      #why, #locations, #book { padding: 70px 28px; }
+    }
+
+    /* fade-in on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo">Vasinik<span>ò</span></a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#locations">Locations</a></li>
+    <li><a href="#book" class="nav-book">Book a Table</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="eyebrow">Authentic Neapolitan Pizza · London</p>
+  <h1>The Real <em>Neapolitan</em><br>Pizza Experience</h1>
+  <p>From the streets of Naples to the heart of London — made with the Biga method, authentic Italian chefs, and the freshest ingredients.</p>
+  <div class="hero-btns">
+    <a href="#book" class="btn btn-red">Book a Table</a>
+    <a href="#about" class="btn btn-outline">Our Story</a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img"></div>
+  <div class="about-text reveal">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">Where the name<br>comes from</h2>
+    <p>The word <strong>"Vasinicola"</strong> means <strong>"The Basil"</strong> in the Neapolitan dialect — an ancient term rooted in the Greek word <em>Vazilikon</em>, meaning "King."</p>
+    <p>Basil is a symbol of the Mediterranean: fresh, aromatic, and timeless. We chose "Vasinikò" to capture the essence of everything our pizzas represent — summer, intensity, and genuine flavour.</p>
+    <p>We are proud to be part of a celebrated tradition, with <strong>seven established Vasinikò restaurants in Italy</strong>, and now two in the heart of London.</p>
+    <br>
+    <a href="https://drive.google.com/file/d/1mJwNScr-NioAyIYRR0FXvL5gjPNm8mdP/view?usp=sharing" target="_blank" class="btn btn-red" style="align-self:flex-start">View Full Menu</a>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <p class="section-label">Why Vasinikò</p>
+  <h2 class="section-title">A True Neapolitan Experience</h2>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="icon">🌿</div>
+      <h3>Local & Fresh Ingredients</h3>
+      <p>Our pizzas use fresh, UK-sourced vegetables and raw ingredients, guaranteeing quality in every single bite.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="icon">🍕</div>
+      <h3>Unique Biga Pizza Method</h3>
+      <p>Our special Biga dough fermentation creates an unmissable, genuine Neapolitan flavour you won't find elsewhere in London.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="icon">✨</div>
+      <h3>Highly Digestible Dough</h3>
+      <p>The result of slow fermentation is a pizza that is not only delicious but also light and highly digestible.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="icon">👨‍🍳</div>
+      <h3>Authentic Italian Chefs</h3>
+      <p>Our team of authentic Italian pizza makers deliver a genuine slice of Naples, right here in London.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="icon">⭕</div>
+      <h3>Perfect Alveolated Borders</h3>
+      <p>Every pizza leaves our oven with perfectly puffy, airy crusts — crispy on the outside, soft and light within.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="icon">🏆</div>
+      <h3>Renowned Italian Tradition</h3>
+      <p>Part of a celebrated chain of seven established Vasinikò outlets in Italy, bringing proven excellence to London.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+<section id="locations">
+  <p class="section-label">Find Us</p>
+  <h2 class="section-title">Two London Locations</h2>
+  <div class="loc-grid">
+    <div class="loc-card reveal">
+      <h3>Covent Garden</h3>
+      <p>9 Burleigh Street<br>Covent Garden, WC2E 7PW<br><br>Ideal for smaller parties and a vibrant atmosphere in the heart of London's theatre district.</p>
+      <a href="https://www.sevenrooms.com/explore/vanisikocoventgrden/reservations/create/search" target="_blank" class="btn btn-red">Book This Location</a>
+    </div>
+    <div class="loc-card reveal">
+      <h3>Trafalgar Square</h3>
+      <p>9 Adelaide Street<br>London, WC2N 4HZ<br><br>Our Trafalgar Square location is recommended for parties of five or more. Walk-ins welcome.</p>
+      <a href="https://www.sevenrooms.com/explore/vasinikotrafalgarsquare/reservations/create/search" target="_blank" class="btn btn-red">Book This Location</a>
+    </div>
+  </div>
+  <div class="tel-block">
+    Call us directly: <br><br>
+    <a href="tel:02078368628">020 7836 8628</a>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section id="book">
+  <p class="section-label">Reservations</p>
+  <h2 class="section-title">Book Your Table</h2>
+  <p class="sub">Leave your details and our team will confirm your booking within 4 hours. This is a request — your booking is confirmed only once you receive our reply.</p>
+  <div class="book-form">
+    <input type="text" placeholder="Your Name" />
+    <input type="tel" placeholder="Phone Number" />
+    <select>
+      <option value="" disabled selected>Location</option>
+      <option>Covent Garden</option>
+      <option>Trafalgar Square</option>
+    </select>
+    <select>
+      <option value="" disabled selected>Guests</option>
+      <option>1–2</option>
+      <option>3–4</option>
+      <option>5–6</option>
+      <option>7+</option>
+    </select>
+    <input type="date" />
+    <button onclick="submitForm()">Request Table</button>
+  </div>
+  <p class="form-note">By submitting you agree to our Privacy Policy. We will not share your details with any third parties.</p>
+  <div class="success-msg" id="successMsg">🍕 Thank you! We've received your request and will be in touch within 4 hours.</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Vasinikò</div>
+  <p>© 2025 Vasinikò. All Rights Reserved. &nbsp;|&nbsp; <a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="https://drive.google.com/file/d/1qso0KpjLtJ1AXlOYFt6p3pvBEKPrAXDj/view?usp=sharing" target="_blank">Allergens</a></p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Dummy form submit
+  function submitForm() {
+    document.getElementById('successMsg').style.display = 'block';
+    document.querySelector('.book-form').style.opacity = '0.4';
+    document.querySelector('.book-form').style.pointerEvents = 'none';
+  }
+</script>
+</body>
+</html>
